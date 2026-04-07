@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Top 5 Coding Tips for Teens</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Poppins',sans-serif;background:#f0f4ff;color:#333;line-height:1.6;}
+header{background:linear-gradient(135deg,#1e3c72,#2a5298);color:white;padding:80px 20px;text-align:center;}
+header h1{font-size:clamp(26px,5vw,42px);font-weight:700;}
+header p{margin-top:10px;opacity:0.9;font-size:1.1rem;}
+.container{max-width:1000px;margin:-50px auto 40px;padding:20px;}
+.blog-card{background:white;border-radius:20px;padding:30px;box-shadow:0 15px 50px rgba(0,0,0,0.08);display:flex;gap:30px;flex-wrap:wrap;}
+.blog-image{flex:1 1 300px;border-radius:15px;object-fit:cover;max-height:400px;width:100%;transition:0.4s;}
+.blog-image:hover{transform: scale(1.03);}
+.blog-content{flex:2 1 400px;}
+.meta{display:flex;flex-wrap:wrap;gap:20px;font-size:14px;color:#777;margin-bottom:20px;}
+.blog-content h3{margin-top:20px;color:#1e3c72;font-size:1.3rem;}
+.blog-content p{margin-top:8px;font-size:1rem;}
+.comment-box{margin-top:40px;}
+.comment-box h3{margin-bottom:10px;font-size:1.2rem;}
+.input-group{display:flex;flex-direction:column;gap:10px;}
+input,textarea{width:100%;padding:14px;border-radius:10px;border:1px solid #ddd;font-family:inherit;font-size:1rem;}
+input:focus,textarea:focus{border-color:#2a5298;outline:none;box-shadow:0 0 0 3px rgba(42,82,152,0.1);}
+button{background:linear-gradient(135deg,#1e3c72,#2a5298);color:white;padding:14px;border:none;border-radius:10px;cursor:pointer;font-weight:600;font-size:1rem;transition:0.3s;}
+button:hover{transform:translateY(-2px);box-shadow:0 10px 20px rgba(0,0,0,0.15);}
+#comments{margin-top:20px;}
+.comment{background:#f5f7ff;padding:15px;border-radius:12px;margin-top:10px;}
+.comment strong{color:#1e3c72;}
+@media(max-width:1024px){.blog-card{flex-direction:column;gap:20px;}.blog-image{max-height:350px;}}
+@media(max-width:768px){header{padding:60px 15px;}header h1{font-size:clamp(24px,6vw,36px);}.blog-content h3{font-size:1.2rem;}.blog-content p{font-size:0.95rem;}button{padding:12px;font-size:0.95rem;}input,textarea{padding:12px;font-size:0.95rem;}}
+@media(max-width:480px){header{padding:50px 10px;}.blog-card{padding:20px;}.blog-image{max-height:250px;}.blog-content h3{font-size:1.1rem;}.blog-content p{font-size:0.9rem;}}
+</style>
+</head>
+<body>
+<header>
+<h1>Top 5 Coding Tips Every Teen Should Know</h1>
+<p>Boost your programming skills with smart strategies 🚀</p>
+</header>
+
+<div class="container">
+<div class="blog-card">
+<img src="https://images.unsplash.com/photo-1518779578993-ec3579fee39f" alt="Coding Tips" class="blog-image">
+<div class="blog-content">
+<div class="meta"><span>📅 Apr 1, 2026</span><span>💬 <span id="commentCount">0</span> Comments</span></div>
+<p>Coding is one of the most powerful skills teens can learn today. Here are 5 tips to level up fast:</p>
+<h3>1. Practice Daily</h3><p>Consistency beats talent. Code every day.</p>
+<h3>2. Build Real Projects</h3><p>Create websites, apps, and tools — not just tutorials.</p>
+<h3>3. Learn Debugging</h3><p>Fixing errors makes you a real developer.</p>
+<h3>4. Use GitHub</h3><p>Show your work and build your portfolio.</p>
+<h3>5. Stay Curious</h3><p>Technology evolves — keep learning!</p>
+
+<div class="comment-box">
+<h3>Leave a Comment</h3>
+<div class="input-group">
+<input type="text" id="name" placeholder="Your Name">
+<textarea id="message" placeholder="Write your comment..."></textarea>
+<button onclick="submitComment()">Post Comment</button>
+</div>
+<div id="comments"></div>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+const blogId = "blog3";
+const API = `/api/comments?blogId=${blogId}`;
+
+async function fetchComments() {
+  const res = await fetch(API);
+  const data = await res.json();
+  const container = document.getElementById("comments");
+  const count = document.getElementById("commentCount");
+  container.innerHTML = "";
+  count.innerText = data.length;
+  data.forEach(c=>{
+    container.innerHTML+=`<div class="comment"><strong>${c.name}</strong><p>${c.message}</p></div>`;
+  });
+}
+
+async function submitComment() {
+  const name=document.getElementById("name").value.trim();
+  const message=document.getElementById("message").value.trim();
+  if(!name||!message){alert("Please fill all fields");return;}
+  await fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({name,message})});
+  document.getElementById("name").value="";
+  document.getElementById("message").value="";
+  fetchComments();
+}
+
+fetchComments();
+</script>
+</body>
+</html>

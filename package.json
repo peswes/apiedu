@@ -1,0 +1,8 @@
+{
+  "name": "edtech-blog-backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "mongodb": "^5.8.0"
+  }
+}
